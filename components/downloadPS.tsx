@@ -26,6 +26,7 @@ export default function downloadPS() {
             height={80}
             width={200}
             layout='fixed'
+            alt='boton play store'
             >
             </Image></a>
         </div>

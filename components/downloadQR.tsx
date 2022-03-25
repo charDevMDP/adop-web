@@ -16,6 +16,7 @@ export default function downloadQR() {
             height={200}
             width={200}
             layout='fixed'
+            alt='codigo qr'
             >
           </Image>
         </div>

@@ -10,7 +10,7 @@ export default function download() {
 
   useEffect(() => {
 
-    function getOS() {
+    const getOS = () =>  {
       let userAgent = window.navigator.userAgent,
           platform = window.navigator.platform,
           macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
@@ -35,9 +35,12 @@ export default function download() {
     
     setDevice(getOS())
 
+    return () => { getOS() }
+
   }, [])
-  
-  return (
+
+
+  return(
     <Layout>
          <div className="h-full px-4 pb-2 pt-8 flex flex-col mb-20 items-center justify-start">
         <span className='text-center flex flex-col pb-5 text-xl'>Descarga</span>
