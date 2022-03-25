@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import DownloadPS from 'components/downloadPS'
 import DownloadQR from 'components/downloadQR'
 
-export default function Download() {
+const Download = () =>  {
 
   const [device, setDevice] = useState('')
 
@@ -53,3 +53,5 @@ export default function Download() {
     </Layout>
   )
 }
+
+export default Download
