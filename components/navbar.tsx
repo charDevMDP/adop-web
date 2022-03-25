@@ -154,7 +154,7 @@ const  Navbar = () =>  {
           </div>
         </div>
  
-        {/* Mobile menu, show/hide based on menu state. 
+        {/* Mobile menu, show/hide based on menu state. */}
         <Transition
                 show={isOpen}
                 enter="transition ease-out duration-100 transform"
@@ -175,7 +175,7 @@ const  Navbar = () =>  {
           </div>
         </div>
         </Transition>
-*/}
+
       </nav>
     </>
   )
