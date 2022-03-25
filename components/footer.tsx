@@ -1,6 +1,6 @@
 import React from 'react'
 
-function footer() {
+export default function Footer() {
   return (
     <footer className="bg-[#ffeed8] text-center lg:text-left fixed inset-x-0 bottom-0">
     <div className="text-gray-500 text-center p-4 text-xs">
@@ -10,5 +10,3 @@ function footer() {
     </footer>
   )
 }
-
-export default footer

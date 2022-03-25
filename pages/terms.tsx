@@ -4,7 +4,7 @@ import { termsList } from '../utils/dataTerms';
 import { Disclosure } from '@headlessui/react'
 import { ChevronUpIcon } from '@heroicons/react/solid'
 
-export default function terms({terms}) {
+export default function Terms({terms}) {
   return (
     <Layout>
     <div className="w-full px-4 pb-2 pt-8 mb-20">
