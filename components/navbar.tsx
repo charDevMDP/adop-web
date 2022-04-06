@@ -3,12 +3,23 @@ import { Transition } from '@headlessui/react';
 import Link from 'next/link';
 import Image from 'next/image'
 import { useRouter } from 'next/router';
+import { getSession, useSession } from 'next-auth/react';
 
-const  Navbar = () =>  {
+const Navbar = ({session}) => {
+
+  //const { data, status } = useSession();
 
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenOpUser, setIsOpenOpUser] = useState(false)
   const [user, setUser] = useState(null)
+  const [status, setStatus] = useState()
+
+  useEffect(() => {
+    if(session){
+      setStatus(session.status)
+    }
+  }, [session])
+  
 
   const Menu = [
       {
@@ -23,6 +34,10 @@ const  Navbar = () =>  {
         route: '/terms',
         name: 'Terminos'
     },
+    {
+      route: '/login',
+      name: 'Iniciar sesión'
+    }
 ]
   const MenuUser = ['Salir','Perfil']
 
@@ -84,18 +99,22 @@ const  Navbar = () =>  {
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start ">
               <div className="flex-shrink-0 flex items-center">
                   <div className="lg:hidden w-auto justify-center flex items-center ">
-                        <Image layout='fixed' src="/img/logo.png" width={30} height={30} alt="Adop-Logo"></Image>
+                        <Image layout='fixed' priority={true} src="/img/logo.png" width={30} height={30} alt="Adop-Logo"></Image>
                   </div>
                 <div className="hidden lg:flex h-8 w-auto justify-center items-center">
-                <Image layout='fixed' src="/img/logo.png" width={22} height={22} alt="Adop-Logo"></Image>
+                <Image layout='fixed' src="/img/logo.png" priority={true} width={22} height={22} alt="Adop-Logo"></Image>
                 <span className='text-black text-sm mt-1'>ADOP</span>
                 </div>
               </div>
-              <div className="hidden sm:block sm:ml-6">
+              <div className="hidden sm:flex sm:items-center sm:ml-6">
                 <div className="flex space-x-4">
                   {Menu.map(op => {
                     return <Link href={op.route} key={op.route}>
-                        <a className= {` ${router.pathname == op.route ? 'text-white' : 'text-black'} hover:bg-white hover:text-[#ff8e00] px-3 py-2 rounded-md text-sm font-medium`}>{op.name}</a>
+                        <div >
+                          {op.route != '/login' && (
+                            <a className= {` ${router.pathname == op.route ? 'text-white' : 'text-black'} hover:bg-white hover:text-[#ff8e00] px-3 py-2 rounded-md text-sm font-medium`}>{op.name}</a>
+                          )}
+                        </div>
                         </Link>
                   })}
                
@@ -103,7 +122,7 @@ const  Navbar = () =>  {
               </div>
             </div>
              
-            { user ? (
+            { status === 'unauthenticated' ? (
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span className="sr-only">View notifications</span>
@@ -118,7 +137,7 @@ const  Navbar = () =>  {
                 <div>
                   <button onClick={()=> setIsOpenOpUser(!isOpenOpUser)} ref={refUser} type="button" className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span className="sr-only">Open user menu</span>
-                    <Image className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="avatar"></Image>
+                    <Image className="h-8 w-8 rounded-full" src="/img/qr_img2022.png" height={10} width={20} layout='fixed' alt="avatar"></Image>
                   </button>
                 </div>
                
@@ -142,12 +161,10 @@ const  Navbar = () =>  {
               </div>
             </div>
             ) : (
-                <div className='hidden lg:block'>
-                  {/* 
+                <div className='hidden md:block'>
                     <Link href='/login' >
                         <a className="text-[#ff8e00] bg-white hover:scale-105 transition-all ease-out  block px-3 py-2 rounded-md text-base font-medium">Iniciar Sesion</a>
                         </Link>
-                      */}
                 </div>
             )}
 
@@ -168,7 +185,14 @@ const  Navbar = () =>  {
           <div className="px-2 pt-2 pb-3 space-y-1v text-center">
             {Menu.map(op => {
                     return <Link href={op.route} key={op.route} >
-                        <a className={` ${router.pathname === op.route ? 'text-white' : 'text-black'} hover:bg-white hover:text-[#ff8e00] block px-3 py-2 rounded-md text-base font-medium`}>{op.name}</a>
+                      <div>
+                        {op.route !== '/login' ? (
+                          <a className={` ${router.pathname === op.route ? 'text-white' : 'text-black'} hover:bg-white hover:text-[#ff8e00] block px-3 py-2 rounded-md text-base font-medium`}>{op.name}</a>
+                        ):(
+                          <a className='bg-white hover:bg-[#ff8e00] text-[#ff8e00] block mx-4 px-3 py-2 rounded-md text-base font-bold'>{op.name}</a>
+                        )}
+                      </div>
+
                         </Link>
                   })}
 
@@ -181,4 +205,15 @@ const  Navbar = () =>  {
   )
 }
 
-export default Navbar
+export default Navbar;
+
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      session,
+    },
+  };
+};

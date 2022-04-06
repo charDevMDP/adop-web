@@ -6,6 +6,7 @@ export default function Home() {
         <div className='w-56 md:w-72 mt-5 mb-8'>
         <Image 
         src= '/img/logoTextoHome.png'
+        priority={true}
         height={300}
         width={300}
         layout='responsive'

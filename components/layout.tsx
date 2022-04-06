@@ -12,7 +12,7 @@ export default function Layout({ children, title, description }) {
         <link rel="icon" href="/logo.ico" />
       </Head>
 
-            <div><Navbar /></div>
+            <div><Navbar session={null} /></div>
 
             {children}
  
