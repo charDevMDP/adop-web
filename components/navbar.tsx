@@ -3,12 +3,20 @@ import { Transition } from '@headlessui/react';
 import Link from 'next/link';
 import Image from 'next/image'
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 const  Navbar = () =>  {
 
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenOpUser, setIsOpenOpUser] = useState(false)
   const [user, setUser] = useState(null)
+
+  const { data, status } = useSession();
+
+  useEffect(() => {
+    console.log('ACA EN NAVBAR -------')
+    console.log({user: data?.user})
+  },[status,data])
 
   const Menu = [
       {
@@ -23,6 +31,10 @@ const  Navbar = () =>  {
         route: '/terms',
         name: 'Terminos'
     },
+    {
+        route: '/about',
+        name: 'Acerca de Adop'
+    }
 ]
   const MenuUser = ['Salir','Perfil']
 
@@ -57,13 +69,16 @@ const  Navbar = () =>  {
 
   return (
     <>
-      <nav className="bg-[#ff8e00]" >
+      <nav className="" >
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8" >
           <div className="relative flex items-center justify-between h-16">
-            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+
+          <div className="flex-1 flex items-center justify-between sm:items-stretch sm:justify-start">
+
+            <div className="flex items-center sm:hidden">
               
               {/* Mobile menu button*/}
-              <button onClick={()=> setIsOpen(!isOpen)} ref={refMenu} type="button" className="inline-flex items-center justify-center p-2 rounded-md hover:text-[#ff8e00] text-white hover:bg-white  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+              <button onClick={()=> setIsOpen(!isOpen)} ref={refMenu} type="button" className="inline-flex items-center justify-center p-1 rounded-md hover:text-white text-[#ff8e00] hover:bg-[#ff8e00]  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
                 <span className="sr-only">Open main menu</span>
                 {!isOpen ? (
                     /* Icon Heroicon name: outline/menu -Menu open: "hidden", Menu closed: "block" */
@@ -81,7 +96,6 @@ const  Navbar = () =>  {
               </button>
 
             </div>
-            <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start ">
               <div className="flex-shrink-0 flex items-center">
                   <div className="lg:hidden w-auto justify-center flex items-center ">
                         <Image layout='fixed' src="/img/logo.png" width={30} height={30} alt="Adop-Logo"></Image>
@@ -95,15 +109,14 @@ const  Navbar = () =>  {
                 <div className="flex space-x-4">
                   {Menu.map(op => {
                     return <Link href={op.route} key={op.route}>
-                        <a className= {` ${router.pathname == op.route ? 'text-white' : 'text-black'} hover:bg-white hover:text-[#ff8e00] px-3 py-2 rounded-md text-sm font-medium`}>{op.name}</a>
+                        <a className= {` ${router.pathname == op.route ? ' border-[#ff8e00] italic text-[#ff8e00]' : 'text-[#ff8e00]'} hover:bg-[#ff8e00] hover:text-white border-1 hover:border-1  px-4 py-2 rounded-md`}>{op.name}</a>
                         </Link>
                   })}
                
                 </div>
               </div>
-            </div>
-             
-            { user ? (
+
+  { user ? (
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span className="sr-only">View notifications</span>
@@ -142,14 +155,25 @@ const  Navbar = () =>  {
               </div>
             </div>
             ) : (
-                <div className='hidden lg:block'>
-                  {/* 
+              <>
+                <div className='hidden lg:block'> 
                     <Link href='/login' >
-                        <a className="text-[#ff8e00] bg-white hover:scale-105 transition-all ease-out  block px-3 py-2 rounded-md text-base font-medium">Iniciar Sesion</a>
-                        </Link>
-                      */}
+                      <a className="bg-[#ff8e00] text-white hover:scale-105 transition-all ease-out  block px-3 py-2 rounded-md text-base font-medium">Iniciar Sesion</a>
+                    </Link>
                 </div>
+                  <div className='block lg:hidden'> 
+                  <Link href='/login' >
+                    <a className="bg-[#ff8e00] text-white hover:scale-105 transition-all ease-out  block  rounded-full text-base font-medium">
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" /></svg>
+                    </a>
+                  </Link>
+              </div>
+              </>
             )}
+
+            </div>
+             
+          
 
           </div>
         </div>
@@ -168,7 +192,7 @@ const  Navbar = () =>  {
           <div className="px-2 pt-2 pb-3 space-y-1v text-center">
             {Menu.map(op => {
                     return <Link href={op.route} key={op.route} >
-                        <a className={` ${router.pathname === op.route ? 'text-white' : 'text-black'} hover:bg-white hover:text-[#ff8e00] block px-3 py-2 rounded-md text-base font-medium`}>{op.name}</a>
+                        <a className={` ${router.pathname === op.route ? 'text-white bg-[#ff8e00]' : 'text-[#ff8e00]'} hover:bg-[#ff8e00] hover:text-white block my-2 px-3 py-2 rounded-md text-base font-medium`}>{op.name}</a>
                         </Link>
                   })}
 

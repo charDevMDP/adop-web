@@ -4,7 +4,7 @@ import Footer from "./footer";
 
 export default function Layout({ children, title, description }) {
     return (
-        <div className="flex flex-col md:h-screen w-full md:relative absolute">
+        <div className="flex flex-col h-screen w-full md:relative absolute bg-[#fffaf5]  ">
 
         <Head>
         <title>{title}</title>
@@ -12,11 +12,11 @@ export default function Layout({ children, title, description }) {
         <link rel="icon" href="/logo.ico" />
       </Head>
 
-            <div><Navbar /></div>
-
-            {children}
- 
-            <div><Footer /></div>
+            <div className="max-w-7xl self-auto flex flex-col w-full mx-auto">     
+                <Navbar />
+                {children}
+                <Footer />
+            </div>
         </div>
     )
   }

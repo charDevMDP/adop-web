@@ -7,7 +7,7 @@ import { ChevronUpIcon } from '@heroicons/react/solid'
 export default function Terms({terms}) {
   return (
     <Layout>
-    <div className="w-full px-4 pb-2 pt-8 mb-20">
+    <div className="w-full px-4 pb-2 pt-8 mb-20 flex flex-col">
         <span className='text-center flex flex-col pb-5 text-xl'>Terminos y condiciones</span>
       <div className="w-full max-w-md md:max-w-2xl mx-auto p-2">
         {terms.map((term:any) => (
