@@ -69,11 +69,10 @@ const  Navbar = () =>  {
 
   return (
     <>
-      <nav className="" >
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8" >
-          <div className="relative flex items-center justify-between h-16">
+      <nav>
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 " >
 
-          <div className="flex-1 flex items-center justify-between sm:items-stretch sm:justify-start">
+          <div style={{ width: '100%' }} className="flex-1 flex h-16 items-center justify-between">
 
             <div className="flex items-center sm:hidden">
               
@@ -116,8 +115,9 @@ const  Navbar = () =>  {
                 </div>
               </div>
 
+<div className='justify-end'>
   { user ? (
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <div className="absolute inset-y-0 right-0 flexitems-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                 <span className="sr-only">View notifications</span>
                 {/*Heroicon name: outline/bell*/}
@@ -170,13 +170,11 @@ const  Navbar = () =>  {
               </div>
               </>
             )}
+</div>     
 
             </div>
              
-          
-
           </div>
-        </div>
  
         {/* Mobile menu, show/hide based on menu state. */}
         <Transition
